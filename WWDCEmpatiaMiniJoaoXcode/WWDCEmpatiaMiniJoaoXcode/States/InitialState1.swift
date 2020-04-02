@@ -58,7 +58,7 @@ class InitialState: GKState {
     lazy var speechButton: SKButtonNode = {
         let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "speechButtonNormal"), selectedTexture: SKTexture(imageNamed: "speechButtonSelected"), disabledTexture: SKTexture(imageNamed: "speechButtonDisabled"))
         button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.speakButtonAction))
-          button.position = CGPoint(x: -420,y: -300)
+          button.position = CGPoint(x: -310,y: -300)
             button.zPosition = 3
             button.size = CGSize(width: 150, height: 150)
         button.name = "speechButton"
@@ -84,7 +84,7 @@ class InitialState: GKState {
     
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         switch stateClass {
-        case is SpeakChallengeState.Type:
+        case is SpeechChallengeState.Type:
             return true
         case is SoundChallengeState.Type:
             return true
@@ -130,7 +130,7 @@ class InitialState: GKState {
     }
     
     @objc func speakButtonAction() {
-        self.gameScene.gameState.enter(SpeakChallengeState.self)
+        self.gameScene.gameState.enter(SpeechChallengeState.self)
     }
     
     @objc func empathyButtonAction() {
