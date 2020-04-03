@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class InitialState: GKState {
+public class InitialState: GKState {
     unowned let gameScene: GameScene
     var controlNode: SKNode!
     var scene: SKSpriteNode!
@@ -77,12 +77,12 @@ class InitialState: GKState {
     
     
     
-    init(_ gameScene: GameScene) {
+    public init(_ gameScene: GameScene) {
            self.gameScene = gameScene
            super.init()
     }
     
-    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+    public override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         switch stateClass {
         case is SpeechChallengeState.Type:
             return true
@@ -97,7 +97,7 @@ class InitialState: GKState {
         }
     }
     
-    override func didEnter(from previousState: GKState?) {
+    public override func didEnter(from previousState: GKState?) {
         controlNode = gameScene.controlNode
         scene = buildScene()
         controlNode.addChild(scene)
@@ -109,7 +109,7 @@ class InitialState: GKState {
         
     }
     
-    override func willExit(to nextState: GKState) {
+    public override func willExit(to nextState: GKState) {
         self.scene.removeAllChildren()
         self.scene.removeFromParent()
         self.controlNode = nil
@@ -125,16 +125,16 @@ class InitialState: GKState {
         return node
     }
     
-    @objc func soundButtonAction() {
+    @objc public func soundButtonAction() {
         self.gameScene.gameState.enter(SoundChallengeState.self)
     }
     
-    @objc func speakButtonAction() {
+    @objc public func speakButtonAction() {
         self.gameScene.gameState.enter(SpeechChallengeState.self)
     }
     
-    @objc func empathyButtonAction() {
-        self.gameScene.gameState.enter(EmphatyChallengeState.self)
+    @objc public func empathyButtonAction() {
+        self.gameScene.gameState.enter(EmpathyChallengeState.self)
     }
 }
 

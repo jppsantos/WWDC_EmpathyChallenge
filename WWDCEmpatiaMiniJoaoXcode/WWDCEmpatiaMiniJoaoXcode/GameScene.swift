@@ -17,7 +17,7 @@ class GameScene: SKScene {
         InitialState(self),
         SoundChallengeState(self),
         SpeechChallengeState(self),
-        EmphatyChallengeState(self),
+        EmpathyChallengeState(self),
         FinalState(self)
     ]
     
@@ -39,8 +39,8 @@ class GameScene: SKScene {
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if gameState.currentState.self is EmphatyChallengeState {
-            let state = gameState.currentState as! EmphatyChallengeState
+        if gameState.currentState.self is EmpathyChallengeState {
+            let state = gameState.currentState as! EmpathyChallengeState
             guard let firstTouch = touches.first else { return }
             let location = firstTouch.location(in: self)
             state.touchesBegan(location: location)

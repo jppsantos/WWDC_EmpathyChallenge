@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class EmpathyChallengeState: GKState {
+public class EmpathyChallengeState: GKState {
     unowned let gameScene: GameScene
     var controlNode: SKNode!
     var scene: SKSpriteNode!
@@ -29,7 +29,6 @@ class EmpathyChallengeState: GKState {
           node.name = "empathyBubbleAna"
         node.position = EmpathyPositions.empathyBubbleAna
           node.zPosition = 2
-          node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
           return node
     }()
     
@@ -38,7 +37,6 @@ class EmpathyChallengeState: GKState {
           node.name = "empathyBubbleYou"
         node.position = EmpathyPositions.empathyBubbleYou
           node.zPosition = 2
-          node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
           return node
     }()
     
@@ -47,7 +45,6 @@ class EmpathyChallengeState: GKState {
           node.name = "dogCard"
         node.position = EmpathyPositions.dogCard
           node.zPosition = 3
-          node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
           return node
     }()
     
@@ -56,7 +53,6 @@ class EmpathyChallengeState: GKState {
           node.name = "houseCard"
         node.position = EmpathyPositions.houseCard
           node.zPosition = 3
-          node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
           return node
     }()
     
@@ -65,7 +61,6 @@ class EmpathyChallengeState: GKState {
           node.name = "peopleCard"
         node.position = EmpathyPositions.peopleCard
           node.zPosition = 3
-          node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
           return node
     }()
     
@@ -74,7 +69,6 @@ class EmpathyChallengeState: GKState {
           node.name = "moneyCard"
           node.position = EmpathyPositions.moneyCard
           node.zPosition = 3
-          node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
           return node
     }()
     
@@ -83,7 +77,6 @@ class EmpathyChallengeState: GKState {
           node.name = "heartCard"
           node.position = EmpathyPositions.heartCard
           node.zPosition = 3
-          node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
           return node
     }()
     
@@ -92,29 +85,28 @@ class EmpathyChallengeState: GKState {
           node.name = "carCard"
           node.position = EmpathyPositions.carCard
           node.zPosition = 3
-          node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
           return node
     }()
     
     
     
-    init(_ gameScene: GameScene) {
+    public init(_ gameScene: GameScene) {
         self.gameScene = gameScene
         super.init()
     }
     
-    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+    public override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         return stateClass is InitialState.Type
     }
     
-    override func didEnter(from previousState: GKState?) {
+    public override func didEnter(from previousState: GKState?) {
         controlNode = gameScene.controlNode
         scene = buildScene()
         controlNode.addChild(scene)
         addAllChildren()
     }
 
-    override func willExit(to nextState: GKState) {
+    public override func willExit(to nextState: GKState) {
         self.empathyBubbleYou.removeAllChildren()
         self.empathyBubbleYou.removeFromParent()
         self.empathyBubbleAna.removeAllChildren()
@@ -162,7 +154,7 @@ class EmpathyChallengeState: GKState {
        }
     }
     
-    @objc func empathyButtonAction() {
+    @objc public func empathyButtonAction() {
         self.gameScene.gameState.enter(InitialState.self)
     }
 }
