@@ -167,16 +167,4 @@ class EmpathyChallengeState: GKState {
     }
 }
 
-struct EmpathyPositions {
-    static let empathyButtonPosition =  CGPoint(x: -420,y:  -300)
-    static let empathyBubbleAna  =      CGPoint(x: -200,y:  -100)
-    static let empathyBubbleYou =       CGPoint(x:  200, y: -100)
-    
-    static let dogCard =    CGPoint(x:  120,y: 60 + 150)
-    static let houseCard =  CGPoint(x: -120,y: 60 + 150)
-    static let peopleCard = CGPoint(x:    0,y: 60 + 150)
-    static let moneyCard =  CGPoint(x:    0,y:-60 + 150)
-    static let heartCard =  CGPoint(x:  120,y:-60 + 150)
-    static let carCard =    CGPoint(x: -120,y:-60 + 150)
-}
 

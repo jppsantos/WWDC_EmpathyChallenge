@@ -134,7 +134,7 @@ class InitialState: GKState {
     }
     
     @objc func empathyButtonAction() {
-        self.gameScene.gameState.enter(EmphatyChallengeState.self)
+        self.gameScene.gameState.enter(EmpathyChallengeState.self)
     }
 }
 
