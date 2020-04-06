@@ -39,22 +39,9 @@ class GameScene: SKScene {
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if gameState.currentState.self is EmpathyChallengeState {
-            let state = gameState.currentState as! EmpathyChallengeState
-            guard let firstTouch = touches.first else { return }
-            let location = firstTouch.location(in: self)
-            state.touchesBegan(location: location)
-        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let firstTouch = touches.first else { return }
-            let location = firstTouch.location(in: self)
-            guard let node = self.nodes(at: location).first as? SKNode else {return}
-            
-        if node.name == "speechBubbleAudio" {
-                node.position = location
-            }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

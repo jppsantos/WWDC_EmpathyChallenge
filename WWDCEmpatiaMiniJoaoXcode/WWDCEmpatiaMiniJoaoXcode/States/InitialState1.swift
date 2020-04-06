@@ -58,7 +58,7 @@ class InitialState: GKState {
     lazy var speechButton: SKButtonNode = {
         let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "speechButtonNormal"), selectedTexture: SKTexture(imageNamed: "speechButtonSelected"), disabledTexture: SKTexture(imageNamed: "speechButtonDisabled"))
         button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.speakButtonAction))
-          button.position = CGPoint(x: -310,y: -300)
+          button.position = CGPoint(x: -200,y: -300)
             button.zPosition = 3
             button.size = CGSize(width: 150, height: 150)
         button.name = "speechButton"
@@ -68,7 +68,7 @@ class InitialState: GKState {
     lazy var empathyButton: SKButtonNode = {
         let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "empathyButtonNormal"), selectedTexture: SKTexture(imageNamed: "empathyButtonSelected"), disabledTexture: SKTexture(imageNamed: "empathyButtonDisabled"))
         button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.empathyButtonAction))
-        button.position = CGPoint(x: -200,y: -300)
+        button.position = CGPoint(x: -310,y: -300)
         button.zPosition = 3
         button.size = CGSize(width: 150, height: 150)
         button.name = "emphatyButton"

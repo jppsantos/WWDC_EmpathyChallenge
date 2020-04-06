@@ -1,33 +1,38 @@
 //
-//  ClickElement.swift
+//  Card.swift
 //  WWDCEmpatiaMiniJoaoXcode
 //
-//  Created by Joao Paulo Pereira dos Santos on 03/04/20.
+//  Created by Joao Paulo Pereira dos Santos on 04/04/20.
 //  Copyright © 2020 Joao Paulo Pereira dos Santos. All rights reserved.
 //
-
-import Foundation
 import SpriteKit
 
-protocol ClickElementDelegate {
-    func didTouched(element: ClickElement)
+protocol CardDelegate {
+    func didTouched(element: Card)
 }
 
-class ClickElement: SKShapeNode {
+enum CardSide {
+   case left
+   case right
+   case none
+}
+
+class Card: SKSpriteNode {
     var id: Int!
-    var correctSound: SKAudioNode?
-    var wrongSound: SKAudioNode?
+    var correctSoundName: String?
+    var wrongSoundName: SKAudioNode?
     
     var action: Selector?
     weak var target: AnyObject?
-    var delegate: ClickElementDelegate?
+    var delegate: CardDelegate?
     var otherFace: SKTexture? = SKTexture(imageNamed: "defaultCard")
     
     var isClosed: Bool = false
+    var cardSide: CardSide?
     
-    override init() {
-        super.init()
-        self.isUserInteractionEnabled = true
+    override init(texture: SKTexture?, color: UIColor, size: CGSize) {
+        super.init(texture: texture, color: color, size: size)
+        isUserInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,7 +49,9 @@ class ClickElement: SKShapeNode {
 //    }
     
     func correctClick(){
-        let action = SKAction.sequence([.scale(to: 2.0, duration: 0.25),.playSoundFileNamed("Cartoon_Boing.mp3", waitForCompletion: false),.scale(to: 1, duration: 0.25)])
+        let action = SKAction.sequence([.scale(to: 2.0, duration: 0.25),
+                                        .playSoundFileNamed(correctSoundName ?? "", waitForCompletion: false),
+                                        .scale(to: 1, duration: 0.25)])
         self.run(action)
     }
     
@@ -54,14 +61,15 @@ class ClickElement: SKShapeNode {
     
     func changeFace(){
         let action = SKAction.sequence([
-            .scaleX(to: -25, duration: 0.25),
+            .scaleX(to: -1, duration: 0.25),
             .run {
-                let aux = self.fillTexture
-                self.fillTexture = self.otherFace
+                let aux = self.texture
+                self.texture = self.otherFace
                 self.otherFace = aux
             },
-            .scaleX(to: 0, duration: 0.25)
+            .scaleX(to: 1, duration: 0.25)
         ])
+        self.run(action)
     }
 
     /**
@@ -73,9 +81,7 @@ class ClickElement: SKShapeNode {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("eu \(String(describing: id)) fui clicado")
         delegate?.didTouched(element: self)
     }
 
 }
-

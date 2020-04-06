@@ -14,13 +14,13 @@ class SoundChallengeState: GKState {
     var controlNode: SKNode!
     var scene: SKSpriteNode!
     var shapes: [ClickElement] = []
-    var level = 0
-    var sequence = [0,1,2,2,1]
+    var atualLevel = 1
+    var sequence: [Int]!
     
     
     var atualIndex = 0 {
         didSet {
-            if atualIndex == sequence.count {
+            if atualIndex == Levels.levels[atualLevel].sequence.count {
                 endLevel(withSuccess: true)
             }
         }
@@ -55,11 +55,13 @@ class SoundChallengeState: GKState {
         scene = buildScene()
         controlNode.addChild(scene)
         scene.addChild(soundButton)
+        sequence = Levels.levels[atualLevel].sequence
         
-        buildLevel1()
+        
+        buildLevel()
         
         scene.run(.sequence([
-                    .wait(forDuration: 5),
+                    .wait(forDuration: 2),
                     .run {self.play(challengeSequence: self.sequence)}
                 ]))
     }
@@ -81,52 +83,12 @@ class SoundChallengeState: GKState {
     }
     
     func buildLevel(){
-        for i in 0..<Levels.levels[level].elementQuantity {
+        for i in 0..<Levels.levels[atualLevel].elementQuantity {
             let shape = ClickElement(circleOfRadius: 50)
             shape.id = i
             shape.name = "clickElement"
-            shape.position = Levels.levels[level].positions[i]
-            shape.fillColor = Levels.levels[level].colors[i]
-            shape.delegate = self
-            scene.addChild(shape)
-            shapes.append(shape)
-        }
-    }
-    
- 
-    func buildLevel1(){
-        for i in 0..<3 {
-            let shape = ClickElement(circleOfRadius: 50)
-            shape.id = i
-            shape.name = "clickElement"
-            shape.position = SoundPositions.Level1Positions.array[i]
-            shape.fillColor = SoundColors.Level1Colors.array[i]
-            shape.delegate = self
-            scene.addChild(shape)
-            shapes.append(shape)
-        }
-    }
-    
-    func buildLevel2(){
-        for i in 0..<4 {
-            let shape = ClickElement(circleOfRadius: 50)
-            shape.id = i
-            shape.name = "clickElement"
-            shape.position = SoundPositions.Level1Positions.array[i]
-            shape.fillColor = SoundColors.Level1Colors.array[i]
-            shape.delegate = self
-            scene.addChild(shape)
-            shapes.append(shape)
-        }
-    }
-    
-    func buildLevel3(){
-        for i in 0..<6 {
-            let shape = ClickElement(circleOfRadius: 50)
-            shape.id = i
-            shape.name = "clickElement"
-            shape.position = SoundPositions.Level3Positions.array[i]
-            shape.fillColor = SoundColors.Level3Colors.array[i]
+            shape.position = Levels.levels[atualLevel].positions[i]
+            shape.fillColor = Levels.levels[atualLevel].colors[i]
             shape.delegate = self
             scene.addChild(shape)
             shapes.append(shape)
@@ -167,7 +129,7 @@ class SoundChallengeState: GKState {
 
 extension SoundChallengeState: ClickElementDelegate {
     func didTouched(element: ClickElement) {
-        if sequence[atualIndex] == element.id {
+        if Levels.levels[atualLevel].sequence[atualIndex] == element.id {
             element.correctClick()
             atualIndex += 1
         } else {
