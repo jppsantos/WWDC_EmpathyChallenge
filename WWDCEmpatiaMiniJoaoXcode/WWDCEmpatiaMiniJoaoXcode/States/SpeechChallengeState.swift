@@ -29,7 +29,7 @@ class SpeechChallengeState : GKState {
         let node = SKSpriteNode(imageNamed: "speechBubble")
         node.name = "speechBubble"
         node.position = CGPoint(x: 0, y: -100)
-        node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
+        node.size = CGSize(width: node.size.width, height: node.size.height)
         node.zPosition = 2
         return node
     }()

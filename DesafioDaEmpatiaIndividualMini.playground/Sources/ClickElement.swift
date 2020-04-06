@@ -9,28 +9,28 @@
 import Foundation
 import SpriteKit
 
-protocol ClickElementDelegate {
+public protocol ClickElementDelegate {
     func didTouched(element: ClickElement)
 }
 
-class ClickElement: SKShapeNode {
-    var id: Int!
-    var correctSound: SKAudioNode?
-    var wrongSound: SKAudioNode?
+public class ClickElement: SKShapeNode {
+    public var id: Int!
+    public var correctSound: SKAudioNode?
+    public var wrongSound: SKAudioNode?
+
+    public var action: Selector?
+    public weak var target: AnyObject?
+    public var delegate: ClickElementDelegate?
+    public var otherFace: SKTexture? = SKTexture(imageNamed: "defaultCard")
+ 
+    public var isClosed: Bool = false
     
-    var action: Selector?
-    weak var target: AnyObject?
-    var delegate: ClickElementDelegate?
-    var otherFace: SKTexture? = SKTexture(imageNamed: "defaultCard")
-    
-    var isClosed: Bool = false
-    
-    override init() {
+    public override init() {
         super.init()
         self.isUserInteractionEnabled = true
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -43,16 +43,16 @@ class ClickElement: SKShapeNode {
 //        fatalError("init(coder:) has not been implemented")
 //    }
     
-    func correctClick(){
+    public func correctClick(){
         let action = SKAction.sequence([.scale(to: 2.0, duration: 0.25),.playSoundFileNamed("Cartoon_Boing.mp3", waitForCompletion: false),.scale(to: 1, duration: 0.25)])
         self.run(action)
     }
     
-    func wrongClick(){
+    public func wrongClick(){
         self.run(SKAction.shake())
     }
     
-    func changeFace(){
+    public func changeFace(){
         let action = SKAction.sequence([
             .scaleX(to: -25, duration: 0.25),
             .run {
@@ -68,12 +68,12 @@ class ClickElement: SKShapeNode {
     /**
     * Taking a target object and adding an action that is triggered by a click event.
     */
-    func setElementAction(target: AnyObject, action:Selector) {
+    public func setElementAction(target: AnyObject, action:Selector) {
         self.target = target
         self.action = action
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         print("eu \(String(describing: id)) fui clicado")
         delegate?.didTouched(element: self)
     }

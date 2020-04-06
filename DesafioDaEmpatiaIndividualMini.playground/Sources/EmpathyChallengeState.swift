@@ -13,11 +13,26 @@ public class EmpathyChallengeState: GKState {
     unowned let gameScene: GameScene
     var controlNode: SKNode!
     var scene: SKSpriteNode!
+    var cards: [Card] = []
+    var lastCardTouched: Card?
+    
+    
+    var hitsQuantity = 0 {
+        didSet {
+            if hitsQuantity == EmpathyConstants.cards.count {
+                endChallenge()
+                cancelCardsInteraction(.left)
+                cancelCardsInteraction(.right)
+            }
+        }
+    }
+    
+    
     
     lazy var empathyButton: SKButtonNode = {
         let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "empathyButtonNormal"), selectedTexture: SKTexture(imageNamed: "empathyButtonSelected"), disabledTexture: SKTexture(imageNamed: "empathyButtonDisabled"))
         button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.empathyButtonAction))
-        button.position = EmpathyPositions.empathyButtonPosition
+        button.position = EmpathyConstants.empathyButtonPosition
         button.zPosition = 3
         button.size = CGSize(width: 150, height: 150)
         button.name = "speakButton"
@@ -25,69 +40,20 @@ public class EmpathyChallengeState: GKState {
     }()
     
     lazy var empathyBubbleAna: SKSpriteNode = {
-          let node = SKSpriteNode(imageNamed: "empathyBubbleAna")
-          node.name = "empathyBubbleAna"
-        node.position = EmpathyPositions.empathyBubbleAna
-          node.zPosition = 2
-          return node
+        let node = SKSpriteNode(imageNamed: "empathyBubbleAna")
+        node.name = "empathyBubbleAna"
+        node.position = EmpathyConstants.empathyBubbleAnaPosition
+        node.zPosition = 2
+        return node
     }()
     
     lazy var empathyBubbleYou: SKSpriteNode = {
-          let node = SKSpriteNode(imageNamed: "empathyBubbleYou")
-          node.name = "empathyBubbleYou"
-        node.position = EmpathyPositions.empathyBubbleYou
-          node.zPosition = 2
-          return node
+        let node = SKSpriteNode(imageNamed: "empathyBubbleYou")
+        node.name = "empathyBubbleYou"
+        node.position = EmpathyConstants.empathyBubbleYouPosition
+        node.zPosition = 2
+        return node
     }()
-    
-    lazy var dogCard: SKSpriteNode = {
-          let node = SKSpriteNode(imageNamed: "dogCard")
-          node.name = "dogCard"
-        node.position = EmpathyPositions.dogCard
-          node.zPosition = 3
-          return node
-    }()
-    
-    lazy var houseCard: SKSpriteNode = {
-          let node = SKSpriteNode(imageNamed: "houseCard")
-          node.name = "houseCard"
-        node.position = EmpathyPositions.houseCard
-          node.zPosition = 3
-          return node
-    }()
-    
-    lazy var peopleCard: SKSpriteNode = {
-          let node = SKSpriteNode(imageNamed: "peopleCard")
-          node.name = "peopleCard"
-        node.position = EmpathyPositions.peopleCard
-          node.zPosition = 3
-          return node
-    }()
-    
-    lazy var moneyCard: SKSpriteNode = {
-          let node = SKSpriteNode(imageNamed: "moneyCard")
-          node.name = "moneyCard"
-          node.position = EmpathyPositions.moneyCard
-          node.zPosition = 3
-          return node
-    }()
-    
-    lazy var heartCard: SKSpriteNode = {
-          let node = SKSpriteNode(imageNamed: "heartCard")
-          node.name = "heartCard"
-          node.position = EmpathyPositions.heartCard
-          node.zPosition = 3
-          return node
-    }()
-    
-    lazy var carCard: SKSpriteNode = {
-          let node = SKSpriteNode(imageNamed: "carCard")
-          node.name = "carCard"
-          node.position = EmpathyPositions.carCard
-          node.zPosition = 3
-          return node
-    }()
-    
     
     
     public init(_ gameScene: GameScene) {
@@ -103,9 +69,13 @@ public class EmpathyChallengeState: GKState {
         controlNode = gameScene.controlNode
         scene = buildScene()
         controlNode.addChild(scene)
+        createCards()
         addAllChildren()
+        
+        self.scene.run(.sequence([.wait(forDuration: 1),
+                                  .run {self.cards.forEach{$0.changeFace()}}]))
     }
-
+    
     public override func willExit(to nextState: GKState) {
         self.empathyBubbleYou.removeAllChildren()
         self.empathyBubbleYou.removeFromParent()
@@ -113,11 +83,12 @@ public class EmpathyChallengeState: GKState {
         self.empathyBubbleAna.removeFromParent()
         self.scene.removeAllChildren()
         self.scene.removeFromParent()
+        self.cards = []
         self.controlNode = nil
         self.scene = nil
     }
-
-    func buildScene() -> SKSpriteNode {
+    
+    public func buildScene() -> SKSpriteNode {
         let node = SKSpriteNode()
         node.color = UIColor(hex: 0x8BC7EB)
         node.size = gameScene.size
@@ -126,49 +97,147 @@ public class EmpathyChallengeState: GKState {
         return node
     }
     
-    func addAllChildren(){
+    public func createCards(){
+        var card: Card!
+        var indexes: [Int] = []
+        
+        for i in 0..<EmpathyConstants.cards.count {
+            card = Card(imageNamed: EmpathyConstants.cards[i].imageName)
+            card.name = EmpathyConstants.cards[i].imageName
+            card.position = EmpathyConstants.cards[i].position
+            card.zPosition = 3
+            card.id = i
+            card.delegate = self
+            card.cardSide = .right
+            cards.append(card)
+            indexes.append(i)
+        }
+        
+        for card in cards {
+            guard let randomIndex = indexes.randomElement() else { return }
+            indexes = indexes.filter{ $0 != randomIndex }
+            card.position = EmpathyConstants.cards[randomIndex].position
+        }
+    }
+    
+    public func addAllChildren(){
         scene.addChild(empathyButton)
         scene.addChild(empathyBubbleAna)
         scene.addChild(empathyBubbleYou)
+        var cardCopies: [Card] = []
+        var indexes: [Int] = []
         
-        empathyBubbleAna.addChild(dogCard)
-        empathyBubbleAna.addChild(houseCard)
-        empathyBubbleAna.addChild(peopleCard)
-        empathyBubbleAna.addChild(moneyCard)
-        empathyBubbleAna.addChild(carCard)
-        empathyBubbleAna.addChild(heartCard)
+        for card in cards {
+            empathyBubbleAna.addChild(card)
+        }
         
-        empathyBubbleYou.addChild(dogCard.copy() as! SKNode)
-        empathyBubbleYou.addChild(houseCard.copy() as! SKNode)
-        empathyBubbleYou.addChild(peopleCard.copy() as! SKNode)
-        empathyBubbleYou.addChild(moneyCard.copy() as! SKNode)
-        empathyBubbleYou.addChild(carCard.copy() as! SKNode)
-        empathyBubbleYou.addChild(heartCard.copy() as! SKNode)
+        for card in cards {
+            let cardAux: Card = card.copy() as! Card
+            cardAux.id = card.id
+            card.cardSide = .left
+            cardAux.delegate = self
+            cardCopies.append(cardAux)
+            cards.append(cardAux)
+            empathyBubbleYou.addChild(cardAux)
+            indexes.append(cardAux.id)
+        }
+        
+        for card in cardCopies {
+           guard let randomIndex = indexes.randomElement() else { return }
+           indexes = indexes.filter{ $0 != randomIndex }
+           card.position = EmpathyConstants.cards[randomIndex].position
+        }
     }
     
-    func touchesBegan(location: CGPoint) {
-     
-       guard let node = scene.nodes(at: location).first as? SKNode else {return}
-        if !(node.self is SKButtonNode) {
-            node.run(.rotate(byAngle: 45, duration: 3))
-       }
-    }
     
     @objc public func empathyButtonAction() {
         self.gameScene.gameState.enter(InitialState.self)
     }
 }
 
-struct EmpathyPositions {
-    static let empathyButtonPosition =  CGPoint(x: -420,y:  -300)
-    static let empathyBubbleAna  =      CGPoint(x: -200,y:  -100)
-    static let empathyBubbleYou =       CGPoint(x:  200, y: -100)
+//MARK: - MemoryEmpathtGameLogic
+extension EmpathyChallengeState: CardDelegate {
+    public func didTouched(element: Card) {
+        element.changeFace()
+        let side = element.cardSide == CardSide.left ? CardSide.left : CardSide.right
+        cancelCardsInteraction(side)
+        if let lastTouched = lastCardTouched {
+            compareCards(element, lastTouched)
+            lastCardTouched = nil
+        } else {
+            lastCardTouched = element
+        }
+    }
     
-    static let dogCard =    CGPoint(x:  120,y: 60 + 150)
-    static let houseCard =  CGPoint(x: -120,y: 60 + 150)
-    static let peopleCard = CGPoint(x:    0,y: 60 + 150)
-    static let moneyCard =  CGPoint(x:    0,y:-60 + 150)
-    static let heartCard =  CGPoint(x:  120,y:-60 + 150)
-    static let carCard =    CGPoint(x: -120,y:-60 + 150)
+    public func cancelCardsInteraction(_ inSide: CardSide){
+        switch inSide {
+        case .left:
+            empathyBubbleAna.children.forEach { $0.isUserInteractionEnabled = false }
+        case .right:
+            empathyBubbleYou.children.forEach { $0.isUserInteractionEnabled = false }
+        default:
+            empathyBubbleYou.children.forEach {
+                let thisCard = $0 as! Card
+                if !thisCard.isClosed {
+                    thisCard.isUserInteractionEnabled = true
+                }
+            }
+            empathyBubbleAna.children.forEach {
+                let thisCard = $0 as! Card
+                if !thisCard.isClosed {
+                    thisCard.isUserInteractionEnabled = true
+                }
+            }
+        }
+    }
+    
+    public func compareCards(_ first: Card, _ second: Card) {
+        if first.id == second.id {
+            correctMatch()
+            first.isUserInteractionEnabled = false
+            first.isClosed = true
+            second.isUserInteractionEnabled = false
+            second.isClosed = true
+            cancelCardsInteraction(.none)
+            
+            scene.run(.sequence([
+                .wait(forDuration: 0.5),
+                .run {
+                    first.correctClick()
+                    second.correctClick()
+                }
+            ]))
+            
+        } else {
+            wrongMatch()
+            scene.run(.sequence([
+                .wait(forDuration: 0.5),
+                .run {
+                    first.wrongClick()
+                    second.wrongClick()
+                    },
+                .wait(forDuration: 0.5),
+                .run {
+                    first.changeFace()
+                    second.changeFace()
+                }
+            ]))
+            cancelCardsInteraction(.none)
+        }
+    }
+    
+    public func correctMatch(){
+        print("Acertou esse em!")
+        hitsQuantity += 1
+    }
+    
+    public func wrongMatch(){
+        print("Errou esse em!")
+    }
+    
+    public func endChallenge(){
+        print("Acabou o jogo miseravi")
+    }
 }
+
 

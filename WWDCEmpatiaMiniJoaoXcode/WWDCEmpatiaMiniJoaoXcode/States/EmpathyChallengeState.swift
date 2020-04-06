@@ -108,7 +108,7 @@ class EmpathyChallengeState: GKState {
             card.name = EmpathyConstants.cards[i].imageName
             card.position = EmpathyConstants.cards[i].position
             card.zPosition = 3
-            card.size = CGSize(width: card.size.width * 3, height: card.size.height * 3)
+            card.size = CGSize(width: card.size.width, height: card.size.height)
             card.id = i
             card.delegate = self
             card.cardSide = .right
