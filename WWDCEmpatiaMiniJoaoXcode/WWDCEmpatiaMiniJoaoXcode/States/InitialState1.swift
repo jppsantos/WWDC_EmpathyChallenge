@@ -115,7 +115,7 @@ class InitialState: GKState {
     lazy var endButton: SKButtonNode = {
            let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "helpAnaButton"), selectedTexture: SKTexture(imageNamed: "helpAnaButton"), disabledTexture: SKTexture(imageNamed: ""))
            button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.endButtonAction))
-           button.position = CGPoint(x: 0,y: -250)
+           button.position = CGPoint(x: 0,y: -190)
            button.zPosition = 3
            button.size = CGSize(width: button.size.width * 3, height: button.size.height * 3)
            button.name = "backButton"
@@ -167,6 +167,7 @@ class InitialState: GKState {
         self.scene.removeFromParent()
         self.controlNode = nil
         self.scene = nil
+        self.atualIndexMessage = 0
     }
     
     func buildScene() -> SKSpriteNode {
@@ -238,6 +239,7 @@ extension InitialState: MessageDelegate {
     }
     
     func createAllMessages() {
+        
         let msg = Message(fontNamed: "Helvetica")
         msg.messages = InitialStateConstants.messages[atualIndexMessage].message
         msg.position = CGPoint(x: 0,y: 320)
@@ -249,8 +251,11 @@ extension InitialState: MessageDelegate {
         messages.append(msg)
         
         scene.addChild(msg)
-        scene.addChild(nextButton)
-        scene.addChild(backButton)
+        if !(atualIndexMessage == 3) {
+            scene.addChild(nextButton)
+            scene.addChild(backButton)
+        }
+        
     }
     
     func setButtonsBy(_ atualChallenge: AtualChallenge) {

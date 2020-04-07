@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		6C23BAD32436119900BA0A58 /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C23BAD22436119900BA0A58 /* SKButton.swift */; };
+		6C3C3911243CC3FA00AADEAF /* Cnote.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C390A243CC3FA00AADEAF /* Cnote.mp3 */; };
+		6C3C3912243CC3FA00AADEAF /* Fnote.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C390B243CC3FA00AADEAF /* Fnote.mp3 */; };
+		6C3C3913243CC3FA00AADEAF /* Dnote.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C390C243CC3FA00AADEAF /* Dnote.mp3 */; };
+		6C3C3914243CC3FA00AADEAF /* Enote.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C390D243CC3FA00AADEAF /* Enote.mp3 */; };
+		6C3C3915243CC3FA00AADEAF /* Gnote.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C390E243CC3FA00AADEAF /* Gnote.mp3 */; };
+		6C3C3916243CC3FA00AADEAF /* Anote.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C390F243CC3FA00AADEAF /* Anote.mp3 */; };
+		6C3C3917243CC3FA00AADEAF /* Bnote.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C3910243CC3FA00AADEAF /* Bnote.mp3 */; };
 		6C44D1322436742700CC08C3 /* EmpathyChallengeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C44D12F2436742700CC08C3 /* EmpathyChallengeState.swift */; };
 		6C44D1332436742700CC08C3 /* FinalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C44D1302436742700CC08C3 /* FinalState.swift */; };
 		6C44D1342436742700CC08C3 /* SoundChallengeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C44D1312436742700CC08C3 /* SoundChallengeState.swift */; };
@@ -24,6 +31,7 @@
 		6C6D1FA9243B7EF000D504D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6D1FA8243B7EF000D504D4 /* Message.swift */; };
 		6C7FEED72437AE2D00D2954A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7FEED62437AE2D00D2954A /* Extensions.swift */; };
 		6C832D112434EA1500E2EE41 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C832D102434EA1500E2EE41 /* Constants.swift */; };
+		6C9A8C97243C3C5700EB77DE /* boing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C9A8C96243C3C5700EB77DE /* boing.mp3 */; };
 		6CAA43A4243BBE5600F50870 /* StartState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAA43A3243BBE5600F50870 /* StartState.swift */; };
 		6CF2A7A5243794CE00143683 /* ClickElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2A7A4243794CE00143683 /* ClickElement.swift */; };
 /* End PBXBuildFile section */
@@ -40,6 +48,14 @@
 
 /* Begin PBXFileReference section */
 		6C23BAD22436119900BA0A58 /* SKButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
+		6C3C3909243CC3F100AADEAF /* boing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boing.mp3; sourceTree = "<group>"; };
+		6C3C390A243CC3FA00AADEAF /* Cnote.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Cnote.mp3; path = ../../../../../myAssetsWWDC/music/Cnote.mp3; sourceTree = "<group>"; };
+		6C3C390B243CC3FA00AADEAF /* Fnote.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Fnote.mp3; path = ../../../../../myAssetsWWDC/music/Fnote.mp3; sourceTree = "<group>"; };
+		6C3C390C243CC3FA00AADEAF /* Dnote.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Dnote.mp3; path = ../../../../../myAssetsWWDC/music/Dnote.mp3; sourceTree = "<group>"; };
+		6C3C390D243CC3FA00AADEAF /* Enote.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Enote.mp3; path = ../../../../../myAssetsWWDC/music/Enote.mp3; sourceTree = "<group>"; };
+		6C3C390E243CC3FA00AADEAF /* Gnote.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Gnote.mp3; path = ../../../../../myAssetsWWDC/music/Gnote.mp3; sourceTree = "<group>"; };
+		6C3C390F243CC3FA00AADEAF /* Anote.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Anote.mp3; path = ../../../../../myAssetsWWDC/music/Anote.mp3; sourceTree = "<group>"; };
+		6C3C3910243CC3FA00AADEAF /* Bnote.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Bnote.mp3; path = ../../../../../myAssetsWWDC/music/Bnote.mp3; sourceTree = "<group>"; };
 		6C44D12F2436742700CC08C3 /* EmpathyChallengeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmpathyChallengeState.swift; sourceTree = "<group>"; };
 		6C44D1302436742700CC08C3 /* FinalState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalState.swift; sourceTree = "<group>"; };
 		6C44D1312436742700CC08C3 /* SoundChallengeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundChallengeState.swift; sourceTree = "<group>"; };
@@ -60,6 +76,7 @@
 		6C6D1FA8243B7EF000D504D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6C7FEED62437AE2D00D2954A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6C832D102434EA1500E2EE41 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		6C9A8C96243C3C5700EB77DE /* boing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = boing.mp3; path = ../../../../WWDC2020/sounds/boing.mp3; sourceTree = "<group>"; };
 		6CAA43A3243BBE5600F50870 /* StartState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartState.swift; sourceTree = "<group>"; };
 		6CF2A7A4243794CE00143683 /* ClickElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +99,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6C3C3908243CC3E900AADEAF /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				6C3C3909243CC3F100AADEAF /* boing.mp3 */,
+				6C3C390F243CC3FA00AADEAF /* Anote.mp3 */,
+				6C3C3910243CC3FA00AADEAF /* Bnote.mp3 */,
+				6C3C390A243CC3FA00AADEAF /* Cnote.mp3 */,
+				6C3C390C243CC3FA00AADEAF /* Dnote.mp3 */,
+				6C3C390D243CC3FA00AADEAF /* Enote.mp3 */,
+				6C3C390B243CC3FA00AADEAF /* Fnote.mp3 */,
+				6C3C390E243CC3FA00AADEAF /* Gnote.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		6C4502892434E020001E1CE8 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +135,8 @@
 		6C4502942434E020001E1CE8 /* WWDCEmpatiaMiniJoaoXcode */ = {
 			isa = PBXGroup;
 			children = (
+				6C9A8C96243C3C5700EB77DE /* boing.mp3 */,
+				6C3C3908243CC3E900AADEAF /* Sounds */,
 				6CF2A7A324378B4C00143683 /* Model */,
 				6C4502BB2434E09A001E1CE8 /* States */,
 				6C4502952434E020001E1CE8 /* AppDelegate.swift */,
@@ -232,9 +266,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C3C3911243CC3FA00AADEAF /* Cnote.mp3 in Resources */,
+				6C3C3915243CC3FA00AADEAF /* Gnote.mp3 in Resources */,
+				6C3C3916243CC3FA00AADEAF /* Anote.mp3 in Resources */,
 				6C4502A12434E020001E1CE8 /* Main.storyboard in Resources */,
+				6C3C3914243CC3FA00AADEAF /* Enote.mp3 in Resources */,
 				6C4502A32434E025001E1CE8 /* Assets.xcassets in Resources */,
+				6C3C3913243CC3FA00AADEAF /* Dnote.mp3 in Resources */,
+				6C3C3917243CC3FA00AADEAF /* Bnote.mp3 in Resources */,
+				6C9A8C97243C3C5700EB77DE /* boing.mp3 in Resources */,
 				6C4502A62434E025001E1CE8 /* LaunchScreen.storyboard in Resources */,
+				6C3C3912243CC3FA00AADEAF /* Fnote.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

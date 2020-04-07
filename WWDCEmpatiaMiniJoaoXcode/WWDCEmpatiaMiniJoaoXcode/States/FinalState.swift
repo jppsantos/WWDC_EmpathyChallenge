@@ -69,7 +69,7 @@ class FinalState: GKState {
     }
     
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        return stateClass is InitialState.Type ? true : false
+        return stateClass is StartState.Type ? true : false
     }
     
     override func didEnter(from previousState: GKState?) {
@@ -87,6 +87,8 @@ class FinalState: GKState {
         self.scene.removeFromParent()
         self.controlNode = nil
         self.scene = nil
+        backButton.isHidden = false
+        nextButton.isHidden = false
     }
     
     func buildScene() -> SKSpriteNode {

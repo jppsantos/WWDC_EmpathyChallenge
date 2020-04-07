@@ -33,6 +33,15 @@ class SoundChallengeState: GKState {
         }
     }
     
+    lazy var soundIconNode: SKSpriteNode = {
+        let node = SKSpriteNode(imageNamed: "soundIcon")
+        node.name = "soundIconNode"
+        node.position = CGPoint(x: -450, y: 350)
+        node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
+        node.zPosition = 2
+        return node
+    }()
+    
     lazy var soundButton: SKButtonNode = {
         let button = SKButtonNode(normalTexture:    SKTexture(imageNamed: "soundButtonNormal"),
                                   selectedTexture:    SKTexture(imageNamed: "soundButtonSelected"),
@@ -92,6 +101,15 @@ class SoundChallengeState: GKState {
         controlNode.addChild(scene)
         //        scene.addChild(soundButton)
         
+        let title = Message(fontNamed: "Helvetica")
+        title.messages = [SoundStateConstants.initialMessage]
+        title.position = CGPoint(x: -200 ,y: 350)
+        title.numberOfLines = 3
+        title.horizontalAlignmentMode = .center
+        title.verticalAlignmentMode = .center
+        title.fontSize = 50
+        scene.addChild(soundIconNode)
+        scene.addChild(title)
         
         createAllMessages()
         
@@ -125,6 +143,8 @@ class SoundChallengeState: GKState {
                 shape.name = "clickElement"
                 shape.position = Levels.levels[atualLevel].positions[i]
                 shape.fillColor = Levels.levels[atualLevel].colors[i]
+                shape.correctSoundName = Levels.levels[atualLevel].sounds[i]
+                shape.lineWidth = 0
                 shape.delegate = self
                 scene.addChild(shape)
                 shapes.append(shape)
@@ -148,7 +168,8 @@ class SoundChallengeState: GKState {
             actions.append(.run {element.correctClick()})
             actions.append(.wait(forDuration: 1))
         }
-        
+        actions.append(.wait(forDuration: 2))
+        atualIndex = 0
         scene.run(.sequence(actions))
     }
     
@@ -158,20 +179,30 @@ class SoundChallengeState: GKState {
     
     func endLevel(withSuccess: Bool = false) {
             if withSuccess {
-                print("Parabens abestato!")
-                atualIndex = 0
-                atualLevel += 1
-                shapes.forEach({$0.removeFromParent()})
-                shapes = []
-                buildLevel()
-                self.raplayButton.removeFromParent()
+                self.atualIndex = 0
+                self.atualLevel += 1
+                scene.run(.sequence([
+                    .wait(forDuration: 2),
+                    .run {
+                        print("Parabens Nivel Completo!")
+                        
+                        self.shapes.forEach({$0.removeFromParent()})
+                        self.shapes = []
+                        self.buildLevel()
+                        self.raplayButton.removeFromParent()
+                    },
+                ]))
+                
             } else {
                 print("Deu ruim pra tu")
             }
     }
     
     func endChallenge() {
-        self.gameScene.gameState.enter(InitialState.self)
+        self.scene.run(.sequence([
+        .wait(forDuration: 1),
+        .run {self.gameScene.gameState.enter(InitialState.self)}
+        ]))
     }
     
     @objc func raplayButtonAction() {

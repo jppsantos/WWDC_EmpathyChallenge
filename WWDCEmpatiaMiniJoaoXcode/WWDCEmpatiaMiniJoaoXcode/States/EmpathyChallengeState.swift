@@ -28,6 +28,14 @@ class EmpathyChallengeState: GKState {
         }
     }
     
+    lazy var empathyIconNode: SKSpriteNode = {
+        let node = SKSpriteNode(imageNamed: "empathyIcon")
+        node.name = "empathyIconNode"
+        node.position = CGPoint(x: -450, y: 350)
+        node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
+        node.zPosition = 2
+        return node
+    }()
     
     
     lazy var empathyButton: SKButtonNode = {
@@ -93,6 +101,16 @@ class EmpathyChallengeState: GKState {
         scene = buildScene()
         controlNode.addChild(scene)
         
+        let title = Message(fontNamed: "Helvetica")
+        title.messages = [EmpathyStateConstants.initialMessage]
+        title.position = CGPoint(x: -180 ,y: 350)
+        title.numberOfLines = 3
+        title.horizontalAlignmentMode = .center
+        title.verticalAlignmentMode = .center
+        title.fontSize = 50
+        scene.addChild(empathyIconNode)
+        scene.addChild(title)
+        
         createAllMessages()
         
     }
@@ -152,7 +170,7 @@ class EmpathyChallengeState: GKState {
     }
     
     func addAllChildren(){
-        scene.addChild(empathyButton)
+//        scene.addChild(empathyButton)
         scene.addChild(empathyBubbleAna)
         scene.addChild(empathyBubbleYou)
         var cardCopies: [Card] = []
@@ -267,7 +285,12 @@ extension EmpathyChallengeState: CardDelegate {
     }
     
     func endChallenge(){
-        print("Acabou o jogo miseravi")
+        print("Acabou o jogo")
+        self.scene.run(.sequence([
+            .wait(forDuration: 2),
+            .run {self.gameScene.gameState.enter(InitialState.self)}
+            ]))
+        
     }
 }
 

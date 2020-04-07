@@ -20,7 +20,7 @@ enum CardSide {
 class Card: SKSpriteNode {
     var id: Int!
     var correctSoundName: String?
-    var wrongSoundName: SKAudioNode?
+    var wrongSoundName: String?
     
     var action: Selector?
     weak var target: AnyObject?
@@ -49,14 +49,27 @@ class Card: SKSpriteNode {
 //    }
     
     func correctClick(){
-        let action = SKAction.sequence([.scale(to: 2.0, duration: 0.25),
-                                        .playSoundFileNamed(correctSoundName ?? "", waitForCompletion: false),
+        let action = SKAction.sequence([.scale(to: 1.5, duration: 0.25),
                                         .scale(to: 1, duration: 0.25)])
         self.run(action)
     }
     
     func wrongClick(){
         self.run(SKAction.shake())
+    }
+    
+    func pulse() {
+        let actions: [SKAction] = [
+            .scale(to: 1.1, duration: 0.5),
+            .scale(to: 1, duration: 0.5),
+        ]
+        let repeatPulse = SKAction.repeatForever(.sequence(actions))
+        self.run(repeatPulse)
+    }
+    
+    func pausePulse() {
+        self.removeAllActions()
+        self.run(.scale(to: 1, duration: 0))
     }
     
     func changeFace(){

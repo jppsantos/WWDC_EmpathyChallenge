@@ -15,8 +15,8 @@ protocol ClickElementDelegate {
 
 class ClickElement: SKShapeNode {
     var id: Int!
-    var correctSound: SKAudioNode?
-    var wrongSound: SKAudioNode?
+    var correctSoundName: String?
+    var wrongSoundName: String?
     
     var action: Selector?
     weak var target: AnyObject?
@@ -44,7 +44,7 @@ class ClickElement: SKShapeNode {
 //    }
     
     func correctClick(){
-        let action = SKAction.sequence([.scale(to: 2.0, duration: 0.25),.playSoundFileNamed("Cartoon_Boing.mp3", waitForCompletion: false),.scale(to: 1, duration: 0.25)])
+        let action = SKAction.sequence([.scale(to: 1.5, duration: 0.25),.playSoundFileNamed(correctSoundName ?? "boing.mp3", waitForCompletion: false),.scale(to: 1, duration: 0.25)])
         self.run(action)
     }
     
@@ -74,7 +74,7 @@ class ClickElement: SKShapeNode {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("eu \(String(describing: id)) fui clicado")
+//        print("eu \(String(describing: id)) fui clicado")
         delegate?.didTouched(element: self)
     }
 

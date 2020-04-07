@@ -15,6 +15,13 @@ class SpeechChallengeState : GKState {
     var scene: SKSpriteNode!
     var bubbles: [Card] = []
     var msg: Message!
+    var bubblesTouchedQuantity = 0 {
+        didSet {
+            if bubblesTouchedQuantity == SpeechConstants.bubbles.count {
+                endChallenge()
+            }
+        }
+    }
     
     lazy var speechButton: SKButtonNode = {
         let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "speechButtonNormal"), selectedTexture: SKTexture(imageNamed: "speechButtonSelected"), disabledTexture: SKTexture(imageNamed: "speechButtonDisabled"))
@@ -29,8 +36,17 @@ class SpeechChallengeState : GKState {
     lazy var speechBubbleNode: SKSpriteNode = {
         let node = SKSpriteNode(imageNamed: "speechBubble")
         node.name = "speechBubble"
-        node.position = CGPoint(x: 0, y: -100)
-        node.size = CGSize(width: node.size.width, height: node.size.height)
+        node.position = CGPoint(x: 150, y: -200)
+        node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
+        node.zPosition = 2
+        return node
+    }()
+    
+    lazy var spceechIconNode: SKSpriteNode = {
+        let node = SKSpriteNode(imageNamed: "speechIcon")
+        node.name = "spceechIconNode"
+        node.position = CGPoint(x: -450, y: 350)
+        node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
         node.zPosition = 2
         return node
     }()
@@ -55,6 +71,31 @@ class SpeechChallengeState : GKState {
         return button
     }()
     
+    lazy var answerCircle: ClickElement = {
+        let shape = ClickElement(circleOfRadius: 50)
+        shape.id = 0
+        shape.name = "clickElement"
+        shape.position = CGPoint(x: 350, y: 150)
+        shape.fillColor = .green
+        shape.lineWidth = 0
+        shape.isHidden = true
+        //        shape.delegate = self
+        return shape
+    }()
+    
+    lazy var answerMessage: Message = {
+        let txt = Message(fontNamed: "Helvetica")
+        txt.messages = SpeechStateConstants.answerMessages
+        txt.position = CGPoint(x: 50 ,y: 150)
+        txt.numberOfLines = 3
+        txt.horizontalAlignmentMode = .center
+        txt.verticalAlignmentMode = .center
+        txt.fontSize = 40
+        txt.isHidden = true
+        
+        return txt
+    }()
+    
     init(_ gameScene: GameScene) {
         self.gameScene = gameScene
         super.init()
@@ -69,7 +110,21 @@ class SpeechChallengeState : GKState {
         scene = buildScene()
         controlNode.addChild(scene)
         
+        scene.addChild(answerCircle)
+        scene.addChild(answerMessage)
+        
+        let title = Message(fontNamed: "Helvetica")
+        title.messages = [SpeechStateConstants.initialMessage]
+        title.position = CGPoint(x: -180 ,y: 350)
+        title.numberOfLines = 3
+        title.horizontalAlignmentMode = .center
+        title.verticalAlignmentMode = .center
+        title.fontSize = 50
+        scene.addChild(spceechIconNode)
+        scene.addChild(title)
+        
         createAllMessages()
+        
         
     }
     
@@ -79,11 +134,10 @@ class SpeechChallengeState : GKState {
         self.controlNode = nil
         self.scene = nil
         self.bubbles = []
+        self.bubblesTouchedQuantity = 0
     }
     
     func startChallenge() {
-        
-        scene.addChild(speechButton)
         scene.addChild(speechBubbleNode)
         
         createBubbles()
@@ -103,12 +157,14 @@ class SpeechChallengeState : GKState {
     func createBubbles() {
         for i in 0..<SpeechConstants.bubbles.count {
             let bubble = Card(imageNamed: SpeechConstants.bubbles[i].imageName)
+            bubble.id = SpeechConstants.bubbles[i].id
             bubble.name = SpeechConstants.bubbles[i].imageName
             bubble.position = SpeechConstants.bubbles[i].position
-            bubble.zPosition = 2
+            bubble.zPosition = 4
             bubble.size = CGSize(width: bubble.size.width * 3, height: bubble.size.height * 3)
             bubble.correctSoundName = SpeechConstants.bubbles[i].audioName
             bubble.delegate = self
+            bubble.pulse()
             bubbles.append(bubble)
         }
     }
@@ -123,7 +179,13 @@ class SpeechChallengeState : GKState {
         self.gameScene.gameState.enter(InitialState.self)
     }
     
-    
+    func endChallenge() {
+        print("Acabou o jogo das falas")
+        self.scene.run(.sequence([
+            .wait(forDuration: 1),
+            .run {self.gameScene.gameState.enter(InitialState.self)}
+        ]))
+    }
     
 }
 
@@ -132,16 +194,43 @@ extension SpeechChallengeState: CardDelegate {
     
     func didTouched(element: Card) {
         let actions: [SKAction] = [
-            .run { element.correctClick()},
-            .wait(forDuration: 0.5),
             .run {
                 let action = SKAction.move(to: SpeechConstants.newLocation, duration: 2)
                 element.run(action)
+                self.bubbles.forEach({
+                    $0.isUserInteractionEnabled = false
+                   
+                })
             },
-            .wait(forDuration: 4),
-            .run { element.removeFromParent() }
+            .wait(forDuration: 2),
+            .playSoundFileNamed(element.correctSoundName!, waitForCompletion: true),
+            .run { self.showAnswerCircle(element.id) },
+            .run {
+                element.removeFromParent()
+                self.bubbles.forEach({
+                    $0.isUserInteractionEnabled = true
+                })
+            }
         ]
         scene.run(.sequence(actions))
+    }
+    
+    func showAnswerCircle(_ id: Int) {
+        answerCircle.fillColor = id == 0 ? .red : .green
+        
+        self.scene.run(.sequence([
+            .run {
+                self.answerCircle.isHidden = false
+                self.answerMessage.isHidden = false
+                self.answerMessage.text = SpeechStateConstants.answerMessages[id]
+            },
+            .wait(forDuration: 5),
+            .run {
+                self.answerCircle.isHidden = true
+                self.answerMessage.isHidden = true
+                self.bubblesTouchedQuantity += 1
+            }
+        ]))
     }
 }
 

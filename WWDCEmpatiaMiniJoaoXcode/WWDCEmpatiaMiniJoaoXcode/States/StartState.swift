@@ -108,6 +108,7 @@ class StartState: GKState {
         self.scene.removeFromParent()
         self.controlNode = nil
         self.scene = nil
+        atualIndexMessage = 0
     }
     
     func buildScene() -> SKSpriteNode {
