@@ -15,14 +15,14 @@ public protocol ClickElementDelegate {
 
 public class ClickElement: SKShapeNode {
     public var id: Int!
-    public var correctSound: SKAudioNode?
-    public var wrongSound: SKAudioNode?
-
+    public var correctSoundName: String?
+    public var wrongSoundName: String?
+    
     public var action: Selector?
     public weak var target: AnyObject?
     public var delegate: ClickElementDelegate?
     public var otherFace: SKTexture? = SKTexture(imageNamed: "defaultCard")
- 
+    
     public var isClosed: Bool = false
     
     public override init() {
@@ -44,7 +44,7 @@ public class ClickElement: SKShapeNode {
 //    }
     
     public func correctClick(){
-        let action = SKAction.sequence([.scale(to: 2.0, duration: 0.25),.playSoundFileNamed("Cartoon_Boing.mp3", waitForCompletion: false),.scale(to: 1, duration: 0.25)])
+        let action = SKAction.sequence([.scale(to: 1.5, duration: 0.25),.playSoundFileNamed(correctSoundName ?? "boing.mp3", waitForCompletion: false),.scale(to: 1, duration: 0.25)])
         self.run(action)
     }
     
@@ -74,7 +74,7 @@ public class ClickElement: SKShapeNode {
     }
     
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("eu \(String(describing: id)) fui clicado")
+//        print("eu \(String(describing: id)) fui clicado")
         delegate?.didTouched(element: self)
     }
 

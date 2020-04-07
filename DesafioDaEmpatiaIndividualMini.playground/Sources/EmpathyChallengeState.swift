@@ -13,11 +13,12 @@ public class EmpathyChallengeState: GKState {
     unowned let gameScene: GameScene
     var controlNode: SKNode!
     var scene: SKSpriteNode!
-    var cards: [Card] = []
-    var lastCardTouched: Card?
+    public var cards: [Card] = []
+    public var lastCardTouched: Card?
+    public var msg: Message!
     
     
-    var hitsQuantity = 0 {
+    public var hitsQuantity = 0 {
         didSet {
             if hitsQuantity == EmpathyConstants.cards.count {
                 endChallenge()
@@ -27,6 +28,13 @@ public class EmpathyChallengeState: GKState {
         }
     }
     
+    lazy var empathyIconNode: SKSpriteNode = {
+        let node = SKSpriteNode(imageNamed: "empathyIcon")
+        node.name = "empathyIconNode"
+        node.position = CGPoint(x: -450, y: 350)
+        node.zPosition = 2
+        return node
+    }()
     
     
     lazy var empathyButton: SKButtonNode = {
@@ -55,6 +63,24 @@ public class EmpathyChallengeState: GKState {
         return node
     }()
     
+    lazy var nextButton: SKButtonNode = {
+        let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "nextButton"), selectedTexture: SKTexture(imageNamed: "nextButtonSelected"), disabledTexture: SKTexture(imageNamed: ""))
+        button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.nextButtonAction))
+        button.position = CGPoint(x: 350,y: -300)
+        button.zPosition = 3
+        button.name = "nextButton"
+        return button
+    }()
+    
+    lazy var backButton: SKButtonNode = {
+        let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "backButton"), selectedTexture: SKTexture(imageNamed: "backButtonSelected"), disabledTexture: SKTexture(imageNamed: ""))
+        button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.backButtonAction))
+        button.position = CGPoint(x: 200,y: -300)
+        button.zPosition = 3
+        button.name = "backButton"
+        return button
+    }()
+    
     
     public init(_ gameScene: GameScene) {
         self.gameScene = gameScene
@@ -69,11 +95,19 @@ public class EmpathyChallengeState: GKState {
         controlNode = gameScene.controlNode
         scene = buildScene()
         controlNode.addChild(scene)
-        createCards()
-        addAllChildren()
         
-        self.scene.run(.sequence([.wait(forDuration: 1),
-                                  .run {self.cards.forEach{$0.changeFace()}}]))
+        let title = Message(fontNamed: "Helvetica")
+        title.messages = [EmpathyStateConstants.initialMessage]
+        title.position = CGPoint(x: -180 ,y: 350)
+        title.numberOfLines = 3
+        title.horizontalAlignmentMode = .center
+        title.verticalAlignmentMode = .center
+        title.fontSize = 50
+        scene.addChild(empathyIconNode)
+        scene.addChild(title)
+        
+        createAllMessages()
+        
     }
     
     public override func willExit(to nextState: GKState) {
@@ -97,6 +131,14 @@ public class EmpathyChallengeState: GKState {
         return node
     }
     
+    public func startChallenge() {
+        createCards()
+        addAllChildren()
+        
+        self.scene.run(.sequence([.wait(forDuration: 1),
+                                  .run {self.cards.forEach{$0.changeFace()}}]))
+    }
+    
     public func createCards(){
         var card: Card!
         var indexes: [Int] = []
@@ -106,6 +148,7 @@ public class EmpathyChallengeState: GKState {
             card.name = EmpathyConstants.cards[i].imageName
             card.position = EmpathyConstants.cards[i].position
             card.zPosition = 3
+            card.size = CGSize(width: card.size.width, height: card.size.height)
             card.id = i
             card.delegate = self
             card.cardSide = .right
@@ -121,7 +164,7 @@ public class EmpathyChallengeState: GKState {
     }
     
     public func addAllChildren(){
-        scene.addChild(empathyButton)
+//        scene.addChild(empathyButton)
         scene.addChild(empathyBubbleAna)
         scene.addChild(empathyBubbleYou)
         var cardCopies: [Card] = []
@@ -143,9 +186,9 @@ public class EmpathyChallengeState: GKState {
         }
         
         for card in cardCopies {
-           guard let randomIndex = indexes.randomElement() else { return }
-           indexes = indexes.filter{ $0 != randomIndex }
-           card.position = EmpathyConstants.cards[randomIndex].position
+            guard let randomIndex = indexes.randomElement() else { return }
+            indexes = indexes.filter{ $0 != randomIndex }
+            card.position = EmpathyConstants.cards[randomIndex].position
         }
     }
     
@@ -215,7 +258,7 @@ extension EmpathyChallengeState: CardDelegate {
                 .run {
                     first.wrongClick()
                     second.wrongClick()
-                    },
+                },
                 .wait(forDuration: 0.5),
                 .run {
                     first.changeFace()
@@ -236,8 +279,49 @@ extension EmpathyChallengeState: CardDelegate {
     }
     
     public func endChallenge(){
-        print("Acabou o jogo miseravi")
+        print("Acabou o jogo")
+        self.scene.run(.sequence([
+            .wait(forDuration: 2),
+            .run {self.gameScene.gameState.enter(InitialState.self)}
+            ]))
+        
     }
 }
+
+// MARK: - Messages logic
+extension EmpathyChallengeState: MessageDelegate {
+    public func lastMessageTapped() {
+        print("acabaram as mensagens")
+        msg.removeFromParent()
+        backButton.removeFromParent()
+        nextButton.removeFromParent()
+        startChallenge()
+    }
+    
+    @objc public func nextButtonAction() {
+        self.msg.nextMessage()
+    }
+    
+    @objc public func backButtonAction() {
+        self.msg.previousMessage()
+    }
+    
+    public func createAllMessages() {
+        msg = Message(fontNamed: "Helvetica")
+        msg.messages = EmpathyStateConstants.messages
+        msg.position = CGPoint(x: 0,y: 0)
+        msg.numberOfLines = 3
+        msg.horizontalAlignmentMode = .center
+        msg.verticalAlignmentMode = .center
+        msg.fontSize = 50
+        msg.delegate = self
+        
+        scene.addChild(msg)
+        scene.addChild(nextButton)
+        scene.addChild(backButton)
+        
+    }
+}
+
 
 

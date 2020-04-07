@@ -23,7 +23,6 @@ public class SKButtonNode: SKSpriteNode {
             }
         }
     }
-    
     public var isSelected: Bool = false {
         didSet {
             texture = isSelected ? selectedTexture : defaultTexture
@@ -60,12 +59,25 @@ public class SKButtonNode: SKSpriteNode {
         addChild(bugFixLayerNode)
 
     }
+    
+    public func pulse() {
+        let actions: [SKAction] = [
+            .scale(to: 1.25, duration: 0.5),
+            .scale(to: 1, duration: 0.5),
+        ]
+        let repeatPulse = SKAction.repeatForever(.sequence(actions))
+        self.run(repeatPulse)
+    }
+    
+    public func pausePulse() {
+        self.removeAllActions()
+        self.run(.scale(to: 1, duration: 0))
+    }
 
     /**
      * Taking a target object and adding an action that is triggered by a button event.
      */
     public func setButtonAction(target: AnyObject, triggerEvent event:SKButtonActionType, action:Selector) {
-
         switch (event) {
         case .TouchUpInside:
             targetTouchUpInside = target
@@ -77,7 +89,6 @@ public class SKButtonNode: SKSpriteNode {
             targetTouchUp = target
             actionTouchUp = action
         }
-
     }
 
     public func setButtonLabel(title: NSString, font: String, fontSize: CGFloat) {

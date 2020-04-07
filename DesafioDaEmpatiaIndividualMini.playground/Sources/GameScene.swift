@@ -6,6 +6,7 @@ public class GameScene: SKScene {
     public lazy var gameState = GKStateMachine(states: self.sceneStates)
     
     public lazy var sceneStates = [
+        StartState(self),
         InitialState(self),
         SpeechChallengeState(self),
         EmpathyChallengeState(self),
@@ -23,7 +24,7 @@ public class GameScene: SKScene {
     
     public override func didMove(to view: SKView) {
         addChild(controlNode)
-        gameState.enter(InitialState.self)
+        gameState.enter(StartState.self)
     }
     
     @objc public static override var supportsSecureCoding: Bool {

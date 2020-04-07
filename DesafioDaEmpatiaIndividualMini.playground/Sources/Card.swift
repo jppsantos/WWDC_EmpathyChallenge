@@ -20,13 +20,13 @@ public enum CardSide {
 public class Card: SKSpriteNode {
     public var id: Int!
     public var correctSoundName: String?
-    public var wrongSoundName: SKAudioNode?
-
+    public var wrongSoundName: String?
+    
     public var action: Selector?
     public weak var target: AnyObject?
     public var delegate: CardDelegate?
     public var otherFace: SKTexture? = SKTexture(imageNamed: "defaultCard")
-
+    
     public var isClosed: Bool = false
     public var cardSide: CardSide?
     
@@ -49,14 +49,27 @@ public class Card: SKSpriteNode {
 //    }
     
     public func correctClick(){
-        let action = SKAction.sequence([.scale(to: 2.0, duration: 0.25),
-                                        .playSoundFileNamed(correctSoundName ?? "", waitForCompletion: false),
+        let action = SKAction.sequence([.scale(to: 1.5, duration: 0.25),
                                         .scale(to: 1, duration: 0.25)])
         self.run(action)
     }
     
     public func wrongClick(){
         self.run(SKAction.shake())
+    }
+    
+    public func pulse() {
+        let actions: [SKAction] = [
+            .scale(to: 1.1, duration: 0.5),
+            .scale(to: 1, duration: 0.5),
+        ]
+        let repeatPulse = SKAction.repeatForever(.sequence(actions))
+        self.run(repeatPulse)
+    }
+    
+    public func pausePulse() {
+        self.removeAllActions()
+        self.run(.scale(to: 1, duration: 0))
     }
     
     public func changeFace(){

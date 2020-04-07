@@ -32,7 +32,7 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         addChild(controlNode)
-        gameState.enter(StartState.self)
+        gameState.enter(SpeechChallengeState.self)
         
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         

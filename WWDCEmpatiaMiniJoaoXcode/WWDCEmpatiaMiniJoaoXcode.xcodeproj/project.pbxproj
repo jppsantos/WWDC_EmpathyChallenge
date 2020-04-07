@@ -47,6 +47,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6C04398E243CCB4F0051EEB6 /* correctAudio1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = correctAudio1.m4a; path = ../../../../../myAssetsWWDC/music/correctAudio1.m4a; sourceTree = "<group>"; };
+		6C04398F243CCB500051EEB6 /* wrongAudio0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = wrongAudio0.m4a; path = ../../../../../myAssetsWWDC/music/wrongAudio0.m4a; sourceTree = "<group>"; };
+		6C043990243CCB500051EEB6 /* correctAudio0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = correctAudio0.m4a; path = ../../../../../myAssetsWWDC/music/correctAudio0.m4a; sourceTree = "<group>"; };
+		6C043991243CCB500051EEB6 /* wrongAudio1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = wrongAudio1.m4a; path = ../../../../../myAssetsWWDC/music/wrongAudio1.m4a; sourceTree = "<group>"; };
 		6C23BAD22436119900BA0A58 /* SKButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		6C3C3909243CC3F100AADEAF /* boing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boing.mp3; sourceTree = "<group>"; };
 		6C3C390A243CC3FA00AADEAF /* Cnote.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Cnote.mp3; path = ../../../../../myAssetsWWDC/music/Cnote.mp3; sourceTree = "<group>"; };
@@ -102,6 +106,10 @@
 		6C3C3908243CC3E900AADEAF /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				6C043990243CCB500051EEB6 /* correctAudio0.m4a */,
+				6C04398E243CCB4F0051EEB6 /* correctAudio1.m4a */,
+				6C04398F243CCB500051EEB6 /* wrongAudio0.m4a */,
+				6C043991243CCB500051EEB6 /* wrongAudio1.m4a */,
 				6C3C3909243CC3F100AADEAF /* boing.mp3 */,
 				6C3C390F243CC3FA00AADEAF /* Anote.mp3 */,
 				6C3C3910243CC3FA00AADEAF /* Bnote.mp3 */,

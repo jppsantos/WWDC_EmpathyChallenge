@@ -14,23 +14,37 @@ public class SoundChallengeState: GKState {
     var controlNode: SKNode!
     var scene: SKSpriteNode!
     var shapes: [ClickElement] = []
-    var atualLevel = 0
-    var sequence: [Int]!
+    var atualLevel = 0 {
+        didSet {
+            if atualLevel == Levels.levels.count {
+                endChallenge()
+            }
+        }
+    }
+    public var sequence: [Int]!
+    public var msg: Message!
     
     
-    var atualIndex = 0 {
+    public var atualIndex = 0 {
         didSet {
             if atualIndex == Levels.levels[atualLevel].sequence.count {
                 endLevel(withSuccess: true)
             }
         }
     }
-
+    
+    lazy var soundIconNode: SKSpriteNode = {
+        let node = SKSpriteNode(imageNamed: "soundIcon")
+        node.name = "soundIconNode"
+        node.position = CGPoint(x: -450, y: 350)
+        node.zPosition = 2
+        return node
+    }()
     
     lazy var soundButton: SKButtonNode = {
         let button = SKButtonNode(normalTexture:    SKTexture(imageNamed: "soundButtonNormal"),
-                                selectedTexture:    SKTexture(imageNamed: "soundButtonSelected"),
-                                disabledTexture:    SKTexture(imageNamed: "soundButtonDisabled"))
+                                  selectedTexture:    SKTexture(imageNamed: "soundButtonSelected"),
+                                  disabledTexture:    SKTexture(imageNamed: "soundButtonDisabled"))
         button.setButtonAction(target: self,
                                triggerEvent: .TouchUpInside,
                                action: #selector(self.soundButtonAction))
@@ -38,6 +52,33 @@ public class SoundChallengeState: GKState {
         button.zPosition = 3
         button.size = CGSize(width: 150, height: 150)
         button.name = "soundButton"
+        return button
+    }()
+    
+    lazy var nextButton: SKButtonNode = {
+        let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "nextButton"), selectedTexture: SKTexture(imageNamed: "nextButtonSelected"), disabledTexture: SKTexture(imageNamed: ""))
+        button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.nextButtonAction))
+        button.position = CGPoint(x: 350,y: -300)
+        button.zPosition = 3
+        button.name = "nextButton"
+        return button
+    }()
+    
+    lazy var backButton: SKButtonNode = {
+        let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "backButton"), selectedTexture: SKTexture(imageNamed: "backButtonSelected"), disabledTexture: SKTexture(imageNamed: ""))
+        button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.backButtonAction))
+        button.position = CGPoint(x: 200,y: -300)
+        button.zPosition = 3
+        button.name = "backButton"
+        return button
+    }()
+    
+    lazy var raplayButton: SKButtonNode = {
+        let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "replayButton"), selectedTexture: SKTexture(imageNamed: "replayButtonSelected"), disabledTexture: SKTexture(imageNamed: ""))
+        button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.raplayButtonAction))
+        button.position = CGPoint(x: -400,y: -300)
+        button.zPosition = 3
+        button.name = "backButton"
         return button
     }()
     
@@ -54,25 +95,33 @@ public class SoundChallengeState: GKState {
         controlNode = gameScene.controlNode
         scene = buildScene()
         controlNode.addChild(scene)
-        scene.addChild(soundButton)
-        sequence = Levels.levels[atualLevel].sequence
+        //        scene.addChild(soundButton)
         
+        let title = Message(fontNamed: "Helvetica")
+        title.messages = [SoundStateConstants.initialMessage]
+        title.position = CGPoint(x: -200 ,y: 350)
+        title.numberOfLines = 3
+        title.horizontalAlignmentMode = .center
+        title.verticalAlignmentMode = .center
+        title.fontSize = 50
+        scene.addChild(soundIconNode)
+        scene.addChild(title)
         
-        buildLevel()
+        createAllMessages()
         
-        scene.run(.sequence([
-                    .wait(forDuration: 2),
-                    .run {self.play(challengeSequence: self.sequence)}
-                ]))
     }
-
+    
     public override func willExit(to nextState: GKState) {
         self.scene.removeAllChildren()
         self.scene.removeFromParent()
         self.controlNode = nil
         self.scene = nil
     }
-
+    
+    public func startChallenge() {
+        buildLevel()
+    }
+    
     public func buildScene() -> SKSpriteNode {
         let node = SKSpriteNode()
         node.color = UIColor(hex: 0x8BC7EB)
@@ -83,15 +132,27 @@ public class SoundChallengeState: GKState {
     }
     
     public func buildLevel(){
-        for i in 0..<Levels.levels[atualLevel].elementQuantity {
-            let shape = ClickElement(circleOfRadius: 50)
-            shape.id = i
-            shape.name = "clickElement"
-            shape.position = Levels.levels[atualLevel].positions[i]
-            shape.fillColor = Levels.levels[atualLevel].colors[i]
-            shape.delegate = self
-            scene.addChild(shape)
-            shapes.append(shape)
+        if !(atualLevel == Levels.levels.count) {
+            for i in 0..<Levels.levels[atualLevel].elementQuantity {
+                let shape = ClickElement(circleOfRadius: 50)
+                shape.id = i
+                shape.name = "clickElement"
+                shape.position = Levels.levels[atualLevel].positions[i]
+                shape.fillColor = Levels.levels[atualLevel].colors[i]
+                shape.correctSoundName = Levels.levels[atualLevel].sounds[i]
+                shape.lineWidth = 0
+                shape.delegate = self
+                scene.addChild(shape)
+                shapes.append(shape)
+            }
+            sequence = Levels.levels[atualLevel].sequence
+            
+            scene.run(.sequence([
+                .wait(forDuration: 2),
+                .run {self.play(challengeSequence: self.sequence)},
+                .run { self.scene.addChild(self.raplayButton) }
+            ]))
+            
         }
     }
     
@@ -103,7 +164,8 @@ public class SoundChallengeState: GKState {
             actions.append(.run {element.correctClick()})
             actions.append(.wait(forDuration: 1))
         }
-        
+        actions.append(.wait(forDuration: 2))
+        atualIndex = 0
         scene.run(.sequence(actions))
     }
     
@@ -112,14 +174,37 @@ public class SoundChallengeState: GKState {
     }
     
     public func endLevel(withSuccess: Bool = false) {
-        if withSuccess {
-            print("Parabens abestato!")
-            atualIndex = 0
-        } else {
-            print("Deu ruim pra tu")
-        }
+            if withSuccess {
+                self.atualIndex = 0
+                self.atualLevel += 1
+                scene.run(.sequence([
+                    .wait(forDuration: 2),
+                    .run {
+                        print("Parabens Nivel Completo!")
+                        
+                        self.shapes.forEach({$0.removeFromParent()})
+                        self.shapes = []
+                        self.buildLevel()
+                        self.raplayButton.removeFromParent()
+                    },
+                ]))
+                
+            } else {
+                print("Deu ruim pra tu")
+            }
     }
-   
+    
+    public func endChallenge() {
+        self.scene.run(.sequence([
+        .wait(forDuration: 1),
+        .run {self.gameScene.gameState.enter(InitialState.self)}
+        ]))
+    }
+    
+    @objc public func raplayButtonAction() {
+        play(challengeSequence: self.sequence)
+    }
+    
     @objc public func soundButtonAction() {
         self.gameScene.gameState.enter(InitialState.self)
     }
@@ -136,6 +221,42 @@ extension SoundChallengeState: ClickElementDelegate {
             element.wrongClick()
             endLevel()
         }
+    }
+}
+
+
+// MARK: - Messages logic
+extension SoundChallengeState: MessageDelegate {
+    public func lastMessageTapped() {
+        print("acabaram as mensagens")
+        startChallenge()
+        msg.removeFromParent()
+        backButton.removeFromParent()
+        nextButton.removeFromParent()
+    }
+    
+    @objc public func nextButtonAction() {
+        self.msg.nextMessage()
+    }
+    
+    @objc public func backButtonAction() {
+        self.msg.previousMessage()
+    }
+    
+    public func createAllMessages() {
+        msg = Message(fontNamed: "Helvetica")
+        msg.messages = SoundStateConstants.messages
+        msg.position = CGPoint(x: 0,y: 0)
+        msg.numberOfLines = 3
+        msg.horizontalAlignmentMode = .center
+        msg.verticalAlignmentMode = .center
+        msg.fontSize = 50
+        msg.delegate = self
+        
+        scene.addChild(msg)
+        scene.addChild(nextButton)
+        scene.addChild(backButton)
+        
     }
 }
 

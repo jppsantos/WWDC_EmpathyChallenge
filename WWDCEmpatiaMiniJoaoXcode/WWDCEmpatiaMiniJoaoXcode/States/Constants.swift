@@ -116,10 +116,10 @@ struct SpeechElement {
 
 struct SpeechConstants {
     static let bubbles: [SpeechElement] = [
-        .init(id: 0, imageName: "speechBubbleAudio", audioName: "boing.mp3", position: CGPoint(x: -400, y: 150)),
-        .init(id: 1, imageName: "speechBubbleAudio", audioName: "boing.mp3", position: CGPoint(x: -400, y:  50)),
-        .init(id: 1, imageName: "speechBubbleAudio", audioName: "boing.mp3", position: CGPoint(x: -400, y: -50)),
-        .init(id: 0, imageName: "speechBubbleAudio", audioName: "boing.mp3", position: CGPoint(x: -400, y:-150))
+        .init(id: 0, imageName: "speechBubbleAudio", audioName: "wrongAudio0.m4a", position: CGPoint(x: -400, y: 150)),
+        .init(id: 1, imageName: "speechBubbleAudio", audioName: "correctAudio0.m4a", position: CGPoint(x: -400, y:  50)),
+        .init(id: 1, imageName: "speechBubbleAudio", audioName: "correctAudio0.m4a", position: CGPoint(x: -400, y: -50)),
+        .init(id: 0, imageName: "speechBubbleAudio", audioName: "wrongAudio1.m4a", position: CGPoint(x: -400, y:-150))
     ]
     
     static let newLocation = CGPoint(x: 70, y: -30)
