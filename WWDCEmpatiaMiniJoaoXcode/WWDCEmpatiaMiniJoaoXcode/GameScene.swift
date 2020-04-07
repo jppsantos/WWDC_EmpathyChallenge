@@ -14,6 +14,7 @@ class GameScene: SKScene {
     lazy var gameState = GKStateMachine(states: self.sceneStates)
     
     lazy var sceneStates = [
+        StartState(self),
         InitialState(self),
         SoundChallengeState(self),
         SpeechChallengeState(self),
@@ -31,7 +32,7 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         addChild(controlNode)
-        gameState.enter(InitialState.self)
+        gameState.enter(StartState.self)
         
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         

@@ -27,7 +27,7 @@ struct Levels {
     static let levels: [Level] = [
         .init(
             elementQuantity: 3,
-            sequence: [2,1,2,0,1],
+            sequence: [0,1,2,0],
             positions: [
                 CGPoint(x: -150, y: 0),
                 CGPoint(x: 0, y: 0),
@@ -38,7 +38,7 @@ struct Levels {
         
         .init(
             elementQuantity: 4,
-            sequence: [3,1,2,0,1,3],
+            sequence: [0,1,2,3,1],
             positions: [
                 CGPoint(x: -100, y:  100),
                 CGPoint(x:  100, y:  100),
@@ -65,19 +65,7 @@ struct Levels {
     
 }
 
-struct SoundColors {
-    struct Level1Colors {
-        static let array: [UIColor] = [.red,.green,.blue]
-    }
-    
-    struct Level2Colors {
-        static let array: [UIColor] = [.red,.green,.blue,.purple]
-    }
-    
-    struct Level3Colors {
-        static let array: [UIColor] = [.red,.green,.blue,.purple,.cyan,.black]
-    }
-}
+
 
 
 struct CardModel {
@@ -127,4 +115,74 @@ struct SpeechConstants {
     ]
     
     static let newLocation = CGPoint(x: -50, y: 50)
+}
+
+struct StartStateConstants {
+    static let initialMessage = "Desafio da Empatia"
+    static let messages: [String] = [
+        "Bem vindo ao desafio da Empatia",
+        "Você foi escolhido dentre muitas \npessoas para ajudar a Ana",
+        "Ana está um pouco triste e voce deverá \nusar seu poder de empatia com ela",
+        "Mas antes voce precisa \ndesenvolver suas habilidades",
+        "Vamos Começar!"
+    ]
+}
+
+struct SoundStateConstants {
+    static let initialMessage = "Desafio dos Sons"
+    static let messages: [String] = [
+        "Ouvir é o primeiro grande desafio!",
+        "Para que você seja empático desenvolva \n primeiro sua capacidade de ouvir",
+        "Este é o primeiro passo!"
+    ]
+}
+
+
+struct EmpathyStateConstants {
+    static let initialMessage = "Desafio da Empatia"
+    static let messages: [String] = [
+        "Agora você precisa olhar na \nperspectiva da outra pessoa",
+        "Indentifique na sua memória \nas mesmas memórias de Ana",
+        "Este é o segundo passo!"
+    ]
+}
+
+struct SpeechStateConstants {
+    static let initialMessage = "Desafio da Fala"
+    static let messages: [String] = [
+        "Hora da fala!",
+        "Existem falas boas e \nruins nessa hora",
+        "Descubra as boas falas",
+        "Clique nos áudios!"
+    ]
+}
+
+struct MessageConstants {
+    var message: [String]
+    
+    init(message: [String]) {
+        self.message = message
+    }
+}
+
+struct InitialStateConstants {
+    static let messages: [MessageConstants] = [
+        .init(message: [
+            "Para ajudar Ana você precisa passar \npor um cada dos proximos desafios",
+            "Clique em cada um dos \nbotões a seguir e descubra!",
+            "Comece pelo que está liberado!"
+        ]),
+        .init(message: ["Parabens! Vá para o próximo!"]),
+        .init(message: ["Parabens! Vá para o próximo!"]),
+        .init(message: ["Desafios completos!"])
+    ]
+}
+
+struct FinalStateConstants {
+    static let defaultMessage = "Parabens, Desafio completo!"
+    static let messages: [String] = [
+        "Você completou todos os desafios",
+        "Agora você está pronto para ajudar Ana",
+        "Mas desenvolva a empatia \ncom todos a sua volta!"
+    ]
 }

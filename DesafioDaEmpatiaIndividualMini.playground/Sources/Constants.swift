@@ -27,7 +27,7 @@ public struct Levels {
     public static let levels: [Level] = [
         .init(
             elementQuantity: 3,
-            sequence: [2,1,2,0,1],
+            sequence: [0,1,2,0,1],
             positions: [
                 CGPoint(x: -150, y: 0),
                 CGPoint(x: 0, y: 0),

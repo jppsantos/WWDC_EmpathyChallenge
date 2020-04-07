@@ -14,7 +14,7 @@ public class SoundChallengeState: GKState {
     var controlNode: SKNode!
     var scene: SKSpriteNode!
     var shapes: [ClickElement] = []
-    var atualLevel = 1
+    var atualLevel = 0
     var sequence: [Int]!
     
     

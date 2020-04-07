@@ -59,12 +59,25 @@ class SKButtonNode: SKSpriteNode {
         addChild(bugFixLayerNode)
 
     }
+    
+    func pulse() {
+        let actions: [SKAction] = [
+            .scale(to: 1.25, duration: 0.5),
+            .scale(to: 1, duration: 0.5),
+        ]
+        let repeatPulse = SKAction.repeatForever(.sequence(actions))
+        self.run(repeatPulse)
+    }
+    
+    func pausePulse() {
+        self.removeAllActions()
+        self.run(.scale(to: 1, duration: 0))
+    }
 
     /**
      * Taking a target object and adding an action that is triggered by a button event.
      */
     func setButtonAction(target: AnyObject, triggerEvent event:SKButtonActionType, action:Selector) {
-
         switch (event) {
         case .TouchUpInside:
             targetTouchUpInside = target
@@ -76,7 +89,6 @@ class SKButtonNode: SKSpriteNode {
             targetTouchUp = target
             actionTouchUp = action
         }
-
     }
 
     func setButtonLabel(title: NSString, font: String, fontSize: CGFloat) {

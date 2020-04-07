@@ -9,29 +9,40 @@
 import SpriteKit
 import GameplayKit
 
-class FinalState: GKState {
+class StartState: GKState {
     unowned let gameScene: GameScene
     var controlNode: SKNode!
     var scene: SKSpriteNode!
-    var msg: Message!
+    var messages: [Message] = []
+    var atualIndexMessage = 0
+    
+    lazy var groupNode: SKSpriteNode = {
+        let node = SKSpriteNode(imageNamed: "group")
+        node.name = "groupNode"
+        node.position = CGPoint(x: 0, y: 0)
+        node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
+        node.zPosition = 2
+        return node
+    }()
     
     lazy var youNode: SKSpriteNode = {
-        let node = SKSpriteNode(imageNamed: "youHappy")
+        let node = SKSpriteNode(imageNamed: "you")
         node.name = "groupNode"
-        node.position = CGPoint(x: -150, y: 0)
+        node.position = CGPoint(x: -50, y: 0)
         node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
         node.zPosition = 2
         return node
     }()
     
     lazy var anaNode: SKSpriteNode = {
-        let node = SKSpriteNode(imageNamed: "anaHappy")
+        let node = SKSpriteNode(imageNamed: "ana")
         node.name = "groupNode"
-        node.position = CGPoint(x: 150, y: 0)
+        node.position = CGPoint(x: 50, y: 0)
         node.size = CGSize(width: node.size.width * 3, height: node.size.height * 3)
         node.zPosition = 2
         return node
     }()
+    
     
     lazy var nextButton: SKButtonNode = {
         let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "nextButton"), selectedTexture: SKTexture(imageNamed: "nextButtonSelected"), disabledTexture: SKTexture(imageNamed: ""))
@@ -53,15 +64,16 @@ class FinalState: GKState {
         return button
     }()
     
-    lazy var endButton: SKButtonNode = {
-        let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "endButton"), selectedTexture: SKTexture(imageNamed: "endButton"), disabledTexture: SKTexture(imageNamed: ""))
-        button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.endChallengeAction))
-        button.position = CGPoint(x: 0,y: -250)
+    lazy var startButton: SKButtonNode = {
+        let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "iniciarButton"), selectedTexture: SKTexture(imageNamed: "iniciarButton"), disabledTexture: SKTexture(imageNamed: ""))
+        button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.startButtonAction))
+        button.position = CGPoint(x: 0,y: -300)
         button.zPosition = 3
         button.size = CGSize(width: button.size.width * 3, height: button.size.height * 3)
-        button.name = "endButton"
+        button.name = "emphatyButton"
         return button
     }()
+    
     
     init(_ gameScene: GameScene) {
         self.gameScene = gameScene
@@ -76,11 +88,20 @@ class FinalState: GKState {
         controlNode = gameScene.controlNode
         scene = buildScene()
         controlNode.addChild(scene)
-        createAllMessages()
         
-        scene.addChild(youNode)
-        scene.addChild(anaNode)
+        let msg = Message(fontNamed: "Helvetica")
+        msg.messages = [StartStateConstants.initialMessage]
+        msg.position = CGPoint(x: 0,y: 320)
+        msg.numberOfLines = 3
+        msg.horizontalAlignmentMode = .center
+        msg.verticalAlignmentMode = .center
+        msg.fontSize = 100
+        
+        scene.addChild(msg)
+        scene.addChild(startButton)
+        scene.addChild(groupNode)
     }
+    
     
     override func willExit(to nextState: GKState) {
         self.scene.removeAllChildren()
@@ -98,45 +119,53 @@ class FinalState: GKState {
         return node
     }
     
-    @objc func endChallengeAction() {
-        self.gameScene.gameState.enter(StartState.self)
+    
+    @objc func startButtonAction() {
+        groupNode.removeFromParent()
+        scene.removeAllChildren()
+        scene.addChild(anaNode)
+        scene.addChild(youNode)
+        createAllMessages()
     }
+    
+    
     
 }
 
 // MARK: - Messages logic
-extension FinalState: MessageDelegate {
+extension StartState: MessageDelegate {
     func lastMessageTapped() {
         print("acabaram as mensagens")
-        scene.addChild(endButton)
-        backButton.isHidden = true
-        nextButton.isHidden = true
+        self.gameScene.gameState.enter(InitialState.self)
     }
     
     @objc func nextButtonAction() {
-        self.msg.nextMessage()
+        self.messages[atualIndexMessage].nextMessage()
     }
     
     @objc func backButtonAction() {
-        self.msg.previousMessage()
+        self.messages[atualIndexMessage].previousMessage()
+        
     }
     
     func createAllMessages() {
-        msg = Message(fontNamed: "Helvetica")
-        msg.messages = FinalStateConstants.messages
-        msg.position = CGPoint(x: 0,y: 300)
+        let msg = Message(fontNamed: "Helvetica")
+        msg.messages = StartStateConstants.messages
+        msg.position = CGPoint(x: 0,y: 320)
         msg.numberOfLines = 3
         msg.horizontalAlignmentMode = .center
         msg.verticalAlignmentMode = .center
-        msg.fontSize = 50
         msg.delegate = self
+        msg.fontSize = 50
+        messages.append(msg)
         
         scene.addChild(msg)
         scene.addChild(nextButton)
         scene.addChild(backButton)
-        
     }
 }
+
+
 
 
 

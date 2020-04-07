@@ -21,8 +21,10 @@
 		6C4502B12434E025001E1CE8 /* WWDCEmpatiaMiniJoaoXcodeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4502B02434E025001E1CE8 /* WWDCEmpatiaMiniJoaoXcodeUITests.swift */; };
 		6C4502C72434E1BF001E1CE8 /* InitialState1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4502C62434E1BF001E1CE8 /* InitialState1.swift */; };
 		6C50BAA52438D7FA0070F798 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C50BAA42438D7FA0070F798 /* Card.swift */; };
+		6C6D1FA9243B7EF000D504D4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6D1FA8243B7EF000D504D4 /* Message.swift */; };
 		6C7FEED72437AE2D00D2954A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7FEED62437AE2D00D2954A /* Extensions.swift */; };
 		6C832D112434EA1500E2EE41 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C832D102434EA1500E2EE41 /* Constants.swift */; };
+		6CAA43A4243BBE5600F50870 /* StartState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAA43A3243BBE5600F50870 /* StartState.swift */; };
 		6CF2A7A5243794CE00143683 /* ClickElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2A7A4243794CE00143683 /* ClickElement.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,8 +57,10 @@
 		6C4502B22434E025001E1CE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C4502C62434E1BF001E1CE8 /* InitialState1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialState1.swift; sourceTree = "<group>"; };
 		6C50BAA42438D7FA0070F798 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		6C6D1FA8243B7EF000D504D4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6C7FEED62437AE2D00D2954A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6C832D102434EA1500E2EE41 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		6CAA43A3243BBE5600F50870 /* StartState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartState.swift; sourceTree = "<group>"; };
 		6CF2A7A4243794CE00143683 /* ClickElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,6 +135,7 @@
 				6C4502C62434E1BF001E1CE8 /* InitialState1.swift */,
 				6C832D102434EA1500E2EE41 /* Constants.swift */,
 				6C23BAD22436119900BA0A58 /* SKButton.swift */,
+				6CAA43A3243BBE5600F50870 /* StartState.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -141,6 +146,7 @@
 				6CF2A7A4243794CE00143683 /* ClickElement.swift */,
 				6C7FEED62437AE2D00D2954A /* Extensions.swift */,
 				6C50BAA42438D7FA0070F798 /* Card.swift */,
+				6C6D1FA8243B7EF000D504D4 /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -249,9 +255,11 @@
 				6C44D1342436742700CC08C3 /* SoundChallengeState.swift in Sources */,
 				6C44D1362436744500CC08C3 /* SpeechChallengeState.swift in Sources */,
 				6C45029C2434E020001E1CE8 /* GameScene.swift in Sources */,
+				6C6D1FA9243B7EF000D504D4 /* Message.swift in Sources */,
 				6C45029E2434E020001E1CE8 /* GameViewController.swift in Sources */,
 				6C50BAA52438D7FA0070F798 /* Card.swift in Sources */,
 				6C4502C72434E1BF001E1CE8 /* InitialState1.swift in Sources */,
+				6CAA43A4243BBE5600F50870 /* StartState.swift in Sources */,
 				6C23BAD32436119900BA0A58 /* SKButton.swift in Sources */,
 				6C44D1322436742700CC08C3 /* EmpathyChallengeState.swift in Sources */,
 				6C7FEED72437AE2D00D2954A /* Extensions.swift in Sources */,
