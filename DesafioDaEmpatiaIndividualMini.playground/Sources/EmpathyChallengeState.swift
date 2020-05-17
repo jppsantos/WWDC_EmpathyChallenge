@@ -270,16 +270,16 @@ extension EmpathyChallengeState: CardDelegate {
     }
     
     public func correctMatch(){
-        print("Acertou esse em!")
+        print("Correct match!")
         hitsQuantity += 1
     }
     
     public func wrongMatch(){
-        print("Errou esse em!")
+        print("Wrong match!")
     }
     
     public func endChallenge(){
-        print("Acabou o jogo")
+        print("Challenge Ended. Just a moment")
         self.scene.run(.sequence([
             .wait(forDuration: 2),
             .run {self.gameScene.gameState.enter(InitialState.self)}
@@ -291,7 +291,6 @@ extension EmpathyChallengeState: CardDelegate {
 // MARK: - Messages logic
 extension EmpathyChallengeState: MessageDelegate {
     public func lastMessageTapped() {
-        print("acabaram as mensagens")
         msg.removeFromParent()
         backButton.removeFromParent()
         nextButton.removeFromParent()

@@ -175,7 +175,7 @@ public class SpeechChallengeState : GKState {
     }
     
     public func endChallenge() {
-        print("Acabou o jogo das falas")
+        print("Speech Challenge Ended")
         self.scene.run(.sequence([
             .wait(forDuration: 1),
             .run {self.gameScene.gameState.enter(InitialState.self)}
@@ -232,7 +232,6 @@ extension SpeechChallengeState: CardDelegate {
 // MARK: - Messages logic
 extension SpeechChallengeState: MessageDelegate {
     public func lastMessageTapped() {
-        print("acabaram as mensagens")
         msg.removeFromParent()
         backButton.removeFromParent()
         nextButton.removeFromParent()

@@ -126,7 +126,7 @@ public struct SpeechConstants {
 }
 
 public struct StartStateConstants {
-    public static let initialMessage = "Desafio da Empatia"
+    public static let initialMessage = "Empathy Challenge"
     public static let messages: [String] = [
         "Welcome to the Empathy Challenge",
         "You were chosen from many \npeople to help Ana",

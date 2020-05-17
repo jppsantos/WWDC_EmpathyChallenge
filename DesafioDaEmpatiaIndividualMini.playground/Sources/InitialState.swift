@@ -200,7 +200,6 @@ public class InitialState: GKState {
 // MARK: - Messages logic
 extension InitialState: MessageDelegate {
     public func lastMessageTapped() {
-        print("acabaram as mensagens")
         if atualIndexMessage == 0 {
             setButtonsBy(.sound)
         }

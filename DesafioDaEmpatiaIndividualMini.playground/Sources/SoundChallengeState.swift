@@ -170,7 +170,7 @@ public class SoundChallengeState: GKState {
     }
     
     public func pauseChallenge(){
-        print("Pausando o jogo rapaziada")
+        print("Game Paused")
     }
     
     public func endLevel(withSuccess: Bool = false) {
@@ -180,8 +180,7 @@ public class SoundChallengeState: GKState {
                 scene.run(.sequence([
                     .wait(forDuration: 2),
                     .run {
-                        print("Parabens Nivel Completo!")
-                        
+                        print("Level Completed!")
                         self.shapes.forEach({$0.removeFromParent()})
                         self.shapes = []
                         self.buildLevel()
@@ -190,7 +189,7 @@ public class SoundChallengeState: GKState {
                 ]))
                 
             } else {
-                print("Deu ruim pra tu")
+                print("Wrong click")
             }
     }
     
@@ -228,7 +227,6 @@ extension SoundChallengeState: ClickElementDelegate {
 // MARK: - Messages logic
 extension SoundChallengeState: MessageDelegate {
     public func lastMessageTapped() {
-        print("acabaram as mensagens")
         startChallenge()
         msg.removeFromParent()
         backButton.removeFromParent()

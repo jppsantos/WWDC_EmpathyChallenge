@@ -104,7 +104,6 @@ public class FinalState: GKState {
 // MARK: - Messages logic
 extension FinalState: MessageDelegate {
     public func lastMessageTapped() {
-        print("acabaram as mensagens")
         scene.addChild(endButton)
         backButton.isHidden = true
         nextButton.isHidden = true

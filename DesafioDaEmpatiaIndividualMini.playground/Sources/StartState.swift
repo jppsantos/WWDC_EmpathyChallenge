@@ -60,7 +60,7 @@ public class StartState: GKState {
     }()
     
     lazy var startButton: SKButtonNode = {
-        let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "iniciarButton"), selectedTexture: SKTexture(imageNamed: "iniciarButton"), disabledTexture: SKTexture(imageNamed: ""))
+        let button = SKButtonNode(normalTexture: SKTexture(imageNamed: "startButton"), selectedTexture: SKTexture(imageNamed: "startButton"), disabledTexture: SKTexture(imageNamed: ""))
         button.setButtonAction(target: self, triggerEvent: .TouchUpInside, action: #selector(self.startButtonAction))
         button.position = CGPoint(x: 0,y: -300)
         button.zPosition = 3
@@ -130,7 +130,6 @@ public class StartState: GKState {
 // MARK: - Messages logic
 extension StartState: MessageDelegate {
     public func lastMessageTapped() {
-        print("acabaram as mensagens")
         self.gameScene.gameState.enter(InitialState.self)
     }
     
