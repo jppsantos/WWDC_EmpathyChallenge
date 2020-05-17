@@ -141,7 +141,8 @@ public struct SoundStateConstants {
     public static let messages: [String] = [
         "Listening is the first big challenge!",
         "In order for you to be empathetic develop \n first your ability to listen",
-        "This is the first step!"
+        "This is the first step!",
+        "Turn up the volume 🔊"
     ]
 }
 
@@ -162,7 +163,8 @@ public struct SpeechStateConstants {
         "Speech time!",
         "There are good and bad \nlines at this time",
         "Discover good speeches",
-        "Click on the audios!"
+        "Click on the audios!",
+        "Turn up the volume 🔊"
     ]
     
     public static let answerMessages: [String] = [
