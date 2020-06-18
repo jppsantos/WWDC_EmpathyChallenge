@@ -201,6 +201,7 @@ public class SoundChallengeState: GKState {
     }
     
     @objc public func raplayButtonAction() {
+        self.scene.removeAllActions()
         play(challengeSequence: self.sequence)
     }
     

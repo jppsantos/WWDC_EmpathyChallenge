@@ -96,7 +96,7 @@ public class FinalState: GKState {
     }
     
     @objc public func endChallengeAction() {
-        self.gameScene.gameState.enter(StartState.self)
+        print("Congratulations! End of Challenge!")
     }
     
 }
