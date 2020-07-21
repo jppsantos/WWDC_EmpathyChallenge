@@ -10,10 +10,10 @@ Click **[ here ](https://www.youtube.com/watch?v=8C5BjjiLf5Y&t=5s)** to watch th
 
 ### Screenshots
 
-![1](WWDCEmpathyChallenge/prints/1.png)]
+![1](WWDCEmpathyChallenge/prints/1.png)
 
-![2](WWDCEmpathyChallenge/prints/2.png)]
+![2](WWDCEmpathyChallenge/prints/2.png)
 
-![3](WWDCEmpathyChallenge/prints/3.png)]
+![3](WWDCEmpathyChallenge/prints/3.png)
 
-![4](WWDCEmpathyChallenge/prints/4.png)]
+![4](WWDCEmpathyChallenge/prints/4.png)
